@@ -48,7 +48,6 @@ class ComplexFieldsTests(TestUserMixin, UK2015ExamplesMixin, WebTest):
         )
         self.assertEqual(response.status_code, 200)
         an_label = response.html.find('label', {'for': 'id_additional_link'})
-        import ipdb; ipdb.set_trace()
         self.assertIsNotNone(an_label)
         an_input = response.html.find('input', {'id': 'id_additional_link'})
         self.assertIsNotNone(an_input)

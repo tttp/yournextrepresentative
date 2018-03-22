@@ -13,5 +13,5 @@ class PersonTaskForm(forms.ModelForm):
             'task_field': forms.HiddenInput(),
         }
     def save(self, *args, **kwargs):
-        import ipdb; ipdb.set_trace()
+        pass
         # log_not_found
