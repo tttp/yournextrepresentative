@@ -21,6 +21,7 @@ from .uk_examples import UK2015ExamplesMixin
 from . import factories
 from ynr.helpers import mkdir_p
 from moderation_queue.tests.paths import EXAMPLE_IMAGE_FILENAME
+from duplicates.models import DuplicateSuggestion
 
 example_timestamp = '2014-09-29T10:11:59.216159'
 example_version_id = '5aa6418325c1a0bb'
@@ -303,6 +304,13 @@ class TestMergePeopleView(TestUserMixin, UK2015ExamplesMixin, WebTest):
         primary_person = Person.objects.get(pk=2009)
         non_primary_person = Person.objects.get(pk=2007)
 
+        self.assertEqual(DuplicateSuggestion.objects.all().count(), 0)
+        ds = DuplicateSuggestion.objects.create(
+            person=primary_person,
+            other_person=non_primary_person,
+            user=self.user,
+        )
+
         response = self.app.get('/person/2009/update', user=self.user_who_can_merge)
         merge_form = response.forms['person-merge']
         merge_form['other'] = '2007'
@@ -386,6 +394,7 @@ class TestMergePeopleView(TestUserMixin, UK2015ExamplesMixin, WebTest):
         self.assertEqual(mock_additional_merge_actions.call_args[0][0].id, 2009)
         # The ID will be None now because the secondary has been deleted.
         self.assertEqual(mock_additional_merge_actions.call_args[0][1].id, None)
+        self.assertEqual(DuplicateSuggestion.objects.all().count(), 0)
 
     @patch('candidates.views.version_data.get_current_timestamp')
     @patch('candidates.views.version_data.create_version_id')

@@ -7,6 +7,11 @@ from django.conf import settings
 
 @contextmanager
 def default_additional_merge_actions(primary_person, secondary_person):
+    from duplicates import merge_helpers
+    merge_helpers.alter_duplicate_suggestion_post_merge(
+        primary_person,
+        secondary_person
+    )
     yield
 
 
