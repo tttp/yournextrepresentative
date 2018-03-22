@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^upload_document/', include('official_documents.urls')),
     url(r'^results/', include('results.urls')),
+    url(r'^duplicates/', include('duplicates.urls')),
     url(r'^robots\.txt$', TemplateView.as_view(
         template_name='robots.txt',
         content_type='text/plain')),

@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
     'uk_results',
     'bulk_adding',
+    'duplicates',
 )
 
 MIDDLEWARE_CLASSES = (
