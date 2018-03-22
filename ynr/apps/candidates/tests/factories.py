@@ -147,6 +147,7 @@ class PersonFactory(factory.DjangoModelFactory):
     class Meta:
         model = 'popolo.Person'
 
+    name = factory.Faker('name')
 
 class PersonExtraFactory(factory.DjangoModelFactory):
 
