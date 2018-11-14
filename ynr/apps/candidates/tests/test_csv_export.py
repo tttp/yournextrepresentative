@@ -161,28 +161,25 @@ class CSVTests(TmpMediaRootMixin, TestUserMixin, UK2015ExamplesMixin, TestCase):
         self.assertEqual(list_to_csv(all_members), example_output)
 
     def test_create_csv_management_command(self):
-        # An empty media directory, apart from the images dir
+        # An empty media directory
         self.assertEqual(
-            self.storage.listdir(self.storage.base_location), (["images"], [])
+            self.storage.listdir(self.storage.base_location)[1], []
         )
 
         # We expect a CSV file per election, and one for all elections
         call_command("candidates_create_csv")
         self.assertEqual(
-            self.storage.listdir(self.storage.base_location),
-            (
-                ["images"],
-                [
-                    "candidates-2010.csv",
-                    "candidates-2015.csv",
-                    "candidates-all.csv",
-                    "candidates-elected-all.csv",
-                ],
-            ),
+            sorted(self.storage.listdir(self.storage.base_location)[1]),
+            [
+                "candidates-2010.csv",
+                "candidates-2015.csv",
+                "candidates-all.csv",
+                "candidates-elected-all.csv",
+            ],
         )
 
     def test_create_csv_management_command_single_election(self):
-        # An empty media directory, apart from the images dir
+        # An empty media directory
         self.assertEqual(
             self.storage.listdir(self.storage.base_location), (["images"], [])
         )
@@ -190,8 +187,8 @@ class CSVTests(TmpMediaRootMixin, TestUserMixin, UK2015ExamplesMixin, TestCase):
         # We expect a single CSV file
         call_command("candidates_create_csv", "--election", "2015")
         self.assertEqual(
-            self.storage.listdir(self.storage.base_location),
-            (["images"], ["candidates-2015.csv"]),
+            self.storage.listdir(self.storage.base_location)[1],
+            ["candidates-2015.csv"],
         )
 
     def test_create_csv_management_command_single_election_doesnt_exist(self):
