@@ -176,6 +176,7 @@ class CSVTests(TmpMediaRootMixin, TestUserMixin, UK2015ExamplesMixin, TestCase):
                     "candidates-2010.csv",
                     "candidates-2015.csv",
                     "candidates-all.csv",
+                    "candidates-elected-all.csv",
                 ],
             ),
         )
